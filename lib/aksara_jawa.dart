@@ -3,7 +3,7 @@ library aksara_jawa;
 // nullable support
 
 /// Class to convert java script to latin and vice versa
-class AksaraJava {
+class AksaraJawa {
   bool _isMurdha = false;
   bool _isCopas = false;
   bool _isSpasi = false;
@@ -142,8 +142,8 @@ class AksaraJava {
     "꧙": '9',
     "꧞": '—',
     "꧟": '—',
-    "​": '#', //zero-width joiner
-    "​": ' ' //zero-width space
+    // "​": '#', //zero-width joiner
+    // "​": ' ' //zero-width space
   };
 
   String _transliterateJavaToLatin(String script) {
@@ -189,27 +189,31 @@ class AksaraJava {
             script[i] == "ꦼ") {
           if (i > 2 && script[i - 1] == "ꦲ" && script[i - 2] == "ꦲ") {
             //-hah-
-            if (script[i] == "ꦴ")
+            if (script[i] == "ꦴ") {
               trans = _ganti3(trans, j, "ā");
-            else if (script[i] == "ꦶ")
+            } else if (script[i] == "ꦶ") {
               trans = _ganti3(trans, j, "ai");
-            else if (script[i] == "ꦸ")
+            } else if (script[i] == "ꦸ") {
               trans = _ganti3(trans, j, "au");
-            else if (script[i] == "ꦺ")
+            } else if (script[i] == "ꦺ") {
               trans = _ganti3(trans, j, "ae");
-            else if (script[i] == "ꦼ") trans = _ganti3(trans, j, "aě");
+            } else if (script[i] == "ꦼ") {
+              trans = _ganti3(trans, j, "aě");
+            }
             //script[i] == "ꦶ" || script[i] == "ꦸ" || script[i] == "ꦺ" || script[i] == "ꦼ"
           } else if (i > 2 && script[i - 1] == "ꦲ") {
             //-h-
-            if (script[i] == "ꦴ")
+            if (script[i] == "ꦴ") {
               trans = _ganti3(trans, j, "ā");
-            else if (script[i] == "ꦶ")
+            } else if (script[i] == "ꦶ") {
               trans = _ganti3(trans, j, "i");
-            else if (script[i] == "ꦸ")
+            } else if (script[i] == "ꦸ") {
               trans = _ganti3(trans, j, "u");
-            else if (script[i] == "ꦺ")
+            } else if (script[i] == "ꦺ") {
               trans = _ganti3(trans, j, "e");
-            else if (script[i] == "ꦼ") trans = _ganti3(trans, j, "ě");
+            } else if (script[i] == "ꦼ") {
+              trans = _ganti3(trans, j, "ě");
+            }
             j--;
             //script[i] == "ꦶ" || script[i] == "ꦸ" || script[i] == "ꦺ" || script[i] == "ꦼ"
           } else if (i > 0 &&
@@ -456,7 +460,7 @@ class AksaraJava {
   /// SuperTrim, findstr
   /// trim string, menemukan karakter di dalam string
   String _superTrim(String str) {
-    str = str == null ? '' : str;
+    str = str;
     var ret = str
         .replaceAll(RegExp(r"\s*|\s*$/g"), '')
         .replaceAll(RegExp(r"\s+/g"), ' ');
@@ -464,7 +468,9 @@ class AksaraJava {
   }
 
   bool _findstr(String str, String tofind) {
-    for (var i = 0; i < str.length; i++) if (str[i] == tofind) return true;
+    for (var i = 0; i < str.length; i++) {
+      if (str[i] == tofind) return true;
+    }
     return false;
   }
 
@@ -522,7 +528,7 @@ class AksaraJava {
   /// apabila huruf vokal, return matra (sandhangan swara)
   String? _getMatra(String str) {
     var i = 0;
-    if (str.length < 1) {
+    if (str.isEmpty) {
       return "꧀";
     }
     while (str[i] == 'h') {
@@ -604,10 +610,11 @@ class AksaraJava {
     };
     Map<String, String> matrajavaLatin;
 
-    if (_isCopas)
+    if (_isCopas) {
       matrajavaLatin = matrajavaLatin2;
-    else //if(mode == "ketik")
+    } else {
       matrajavaLatin = matrajavaLatin1;
+    }
 
     if (matrajavaLatin[str] != null) {
       return matrajavaLatin[str];
@@ -624,7 +631,6 @@ class AksaraJava {
   /// 5. ends with 'c', and 'j' -- nc: ncr, ncl; rc; nj: njr, njl; rj;
   /// 6. ends with 'ñ' -- jñ: jny
   /// apabila huruf bikonsonan, return karakter khusus
-  /// TODO: masih case sensitive, mis "RR" masih tidak betul
 
   CoreSound _getShift(String str) {
     str = str.toLowerCase();
@@ -1185,10 +1191,11 @@ class AksaraJava {
     };
     Map<String, String>? consonantjavaLatin;
 
-    if (_isMurdha)
+    if (_isMurdha) {
       consonantjavaLatin = consonantjavaLatin2;
-    else //if(murda == "tidak")
+    } else {
       consonantjavaLatin = consonantjavaLatin1;
+    }
 
     var hShift = _getShift(str);
     String? core = str;
@@ -1241,7 +1248,7 @@ class AksaraJava {
   String _getSound(String str) {
     str = _superTrim(str);
 
-    if (str == null || str == "") {
+    if (str == "") {
       return "";
     }
     var specialSound = _getSpecialSound(str);
@@ -1266,10 +1273,11 @@ class AksaraJava {
 
       if (str.indexOf("nggr") == 0) {
         //nggr-
-        if (_vowelPrev)
-          konsonan = "ꦁꦒꦿ"; //<vowel>nggr-, e.g. panggrahita
-        else
-          konsonan = "ꦔ꧀ꦒꦿ"; //<nonvowel>nggr-, i.e. nggronjal
+        if (_vowelPrev) {
+          konsonan = "ꦁꦒꦿ";
+        } else {
+          konsonan = "ꦔ꧀ꦒꦿ";
+        } //<nonvowel>nggr-, i.e. nggronjal
       } else if (str.indexOf("nggl") == 0) {
         //nggl-
         konsonan = "ꦔ꧀ꦒ꧀ꦭ";
@@ -1281,10 +1289,11 @@ class AksaraJava {
         konsonan = "ꦔ꧀ꦒꦾ";
       } else if (str.indexOf("ngg") == 0) {
         //ngg-
-        if (_vowelPrev)
-          konsonan = "ꦁꦒ"; //<vowel>ngg-, e.g. tunggal
-        else
-          konsonan = "ꦔ꧀ꦒ"; //<nonvowel>ngg-, i.e. nggambar
+        if (_vowelPrev) {
+          konsonan = "ꦁꦒ";
+        } else {
+          konsonan = "ꦔ꧀ꦒ";
+        } //<nonvowel>ngg-, i.e. nggambar
       } else if (str.indexOf("ngl") == 0) {
         //ngl-
         konsonan = "ꦔ꧀ꦭ";
@@ -1305,10 +1314,11 @@ class AksaraJava {
         konsonan = "ꦚ꧀ꦗꦿ";
       } else if (str.indexOf("ngg") == 0) {
         //ngg-
-        if (_vowelPrev)
-          konsonan = "ꦁꦒ"; //<vowel>ngg-, e.g. tunggal
-        else
-          konsonan = "ꦔ꧀ꦒ"; //<nonvowel>ngg-, i.e. nggambar
+        if (_vowelPrev) {
+          konsonan = "ꦁꦒ";
+        } else {
+          konsonan = "ꦔ꧀ꦒ";
+        } //<nonvowel>ngg-, i.e. nggambar
       } else if (coreSound.coreSound == "ꦤꦚ꧀ꦕ꧀ꦭ") {
         // -ncl-
         konsonan = "ꦚ꧀ꦕ꧀ꦭ"; //-ncl-
@@ -1354,10 +1364,11 @@ class AksaraJava {
           konsonan = _getcoreSound(str[0] + str[1]).coreSound + "ꦽ";
           matra = ""; //nyrê-, thrê-, dhrê-
         } else if (str[0] == "n" && str[1] == "g") {
-          if (str[2] == "g")
+          if (str[2] == "g") {
             konsonan = "ꦔ꧀ꦒꦽ";
-          else
+          } else {
             konsonan = "ꦔꦽ";
+          }
           matra = ""; //nggrê-/ngrê-
         } else {
           konsonan = _getcoreSound(str[0]).coreSound + "ꦽ";
@@ -1370,10 +1381,11 @@ class AksaraJava {
           konsonan = _getcoreSound(str[0] + str[1]).coreSound + "꧀ꦭꦼ";
           matra = ""; //nylê-, thlê-, dhlê-
         } else if (str[0] == "n" && str[1] == "g") {
-          if (str[2] == "g")
+          if (str[2] == "g") {
             konsonan = "ꦔ꧀ꦒ꧀ꦭꦼ";
-          else
+          } else {
             konsonan = "ꦔ꧀ꦭꦼ";
+          }
           matra = ""; //ngglê-/nglê-
         } else if (str[0] == "l") {
           konsonan = "ꦊ";
@@ -1403,10 +1415,11 @@ class AksaraJava {
         konsonan = "ꦂꦭ"; //-rl-
       } else if (coreSound.coreSound == "ꦂꦂꦮ") {
         // -rw-
-        if (_vowelPrev)
-          konsonan = "ꦂꦮ"; //-rw- -- arwana
-        else
-          konsonan = "ꦫ꧀ꦮ"; //rw- -- rwa/rwi/rwab
+        if (_vowelPrev) {
+          konsonan = "ꦂꦮ";
+        } else {
+          konsonan = "ꦫ꧀ꦮ";
+        } //rw- -- rwa/rwi/rwab
       } else if (coreSound.coreSound == "ꦂꦂꦕ") {
         // -rc-
         konsonan = "ꦂꦕ"; //-rc-
@@ -1415,37 +1428,42 @@ class AksaraJava {
         konsonan = "ꦃꦲ"; //double -h-
       } else if (coreSound.coreSound == "ꦃꦃꦭ") {
         // -hl-
-        if (_vowelPrev)
-          konsonan = "ꦃꦭ"; //-hl-
-        else
-          konsonan = "ꦲ꧀ꦭ"; //hlam
+        if (_vowelPrev) {
+          konsonan = "ꦃꦭ";
+        } else {
+          konsonan = "ꦲ꧀ꦭ";
+        } //hlam
       } else if (coreSound.coreSound == "ꦃꦃꦮ") {
         // -hw-
-        if (_vowelPrev)
-          konsonan = "ꦃꦮ"; //-hw-
-        else
-          konsonan = "ꦲ꧀ꦮ"; //hwab,hwan
+        if (_vowelPrev) {
+          konsonan = "ꦃꦮ";
+        } else {
+          konsonan = "ꦲ꧀ꦮ";
+        } //hwab,hwan
       } else if (coreSound.coreSound == "ꦃꦲꦾ") {
         // -hy-
-        if (_vowelPrev)
-          konsonan = "ꦃꦪ"; //sembahyang
-        else
-          konsonan = "ꦲꦾ"; //hyang/*
+        if (_vowelPrev) {
+          konsonan = "ꦃꦪ";
+        } else {
+          konsonan = "ꦲꦾ";
+        } //hyang/*
       } else if (coreSound.coreSound == "ꦃꦃꦽ") {
         // hrx-
         konsonan = "ꦲꦿ"; //hrx-
       } else if (coreSound.coreSound == "ꦃꦃꦿ") {
         // hr-
-        if (matra == "ꦼ")
-          konsonan = "ꦲꦽ"; //hr-
-        else
-          konsonan = "ꦲꦿ"; //hr-
+        if (matra == "ꦼ") {
+          konsonan = "ꦲꦽ";
+        } else {
+          konsonan = "ꦲꦿ";
+        } //hr-
       } else if (coreSound.coreSound == "ꦃꦲꦿ") {
         // hr-
-        if (matra == "ꦼ")
-          konsonan = "ꦲꦽ"; //hr-
-        else
-          konsonan = "ꦲꦿ"; //hr-
+        if (matra == "ꦼ") {
+          konsonan = "ꦲꦽ";
+        } else {
+          konsonan = "ꦲꦿ";
+        } //hr-
       } else if (coreSound.coreSound == 'ꦃ' && matra == "꧀") {
         // wignyan - 12 April
         konsonan = "ꦲ"; //ha
@@ -1572,7 +1590,7 @@ class AksaraJava {
           }
         }
         if (str[i] == ' ') {
-          var spasi;
+          String spasi;
           if (_isSpasi) {
             spasi = '';
           } else {

@@ -1,6 +1,6 @@
 name: aksara_jawa
-description: A new Flutter package for translating aksara jawa.
-version: 0.0.2
+description: Flutter package for translating aksara jawa.
+version: 0.0.9
 homepage: http://github.com/taufiqjack/aksara_jawa
 
 environment:
