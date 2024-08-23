@@ -1,4 +1,11 @@
 include: package:flutter_lints/flutter.yaml
+analyzer:
+  errors:
+    unnecessary_null_comparison: ignore
+    equal_keys_in_map: ignore
+    curly_braces_in_flow_control_structures: ignore
+    prefer_if_null_operators: ignore
+    prefer_interpolation_to_compose_strings: ignore
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

@@ -1,10 +1,10 @@
 name: aksara_jawa
 description: Flutter package for translating aksara jawa.
-version: 0.0.9
-homepage: http://github.com/taufiqjack/aksara_jawa
+version: 0.1.1
+homepage: https//github.com/taufiqjack/aksara_jawa
 
 environment:
-  sdk: ">=2.16.1 <3.0.0"
+  sdk: ">=2.19.6 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -14,7 +14,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

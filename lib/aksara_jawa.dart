@@ -161,11 +161,11 @@ class AksaraJawa {
                   script[i - 1] == "ꦆ" ||
                   script[i - 1] == "ꦎ" ||
                   script[i - 1] == "ꦈ")) {
-            trans = _ganti(trans, j, "h" + javaLatin[script[i]]!);
+            trans = _ganti(trans, j, "h${javaLatin[script[i]]!}");
             j += 2;
           }
           if (i > 0 && (script[i - 1] == "꧊")) {
-            trans = _ganti(trans, j, "H" + javaLatin[script[i]]!);
+            trans = _ganti(trans, j, "H${javaLatin[script[i]]!}");
             j += 2;
           } else {
             trans = _ganti(trans, j, javaLatin[script[i]]!);
@@ -186,9 +186,9 @@ class AksaraJawa {
             script[i] == "ꦼ") {
           if (i > 2 && script[i - 1] == "ꦲ" && script[i - 2] == "ꦲ") {
             //-hah-
-            if (script[i] == "ꦴ")
+            if (script[i] == "ꦴ") {
               trans = _ganti3(trans, j, "ā");
-            else if (script[i] == "ꦶ")
+            } else if (script[i] == "ꦶ")
               trans = _ganti3(trans, j, "ai");
             else if (script[i] == "ꦸ")
               trans = _ganti3(trans, j, "au");
@@ -198,9 +198,9 @@ class AksaraJawa {
             //script[i] == "ꦶ" || script[i] == "ꦸ" || script[i] == "ꦺ" || script[i] == "ꦼ"
           } else if (i > 2 && script[i - 1] == "ꦲ") {
             //-h-
-            if (script[i] == "ꦴ")
+            if (script[i] == "ꦴ") {
               trans = _ganti3(trans, j, "ā");
-            else if (script[i] == "ꦶ")
+            } else if (script[i] == "ꦶ")
               trans = _ganti3(trans, j, "i");
             else if (script[i] == "ꦸ")
               trans = _ganti3(trans, j, "u");
@@ -461,7 +461,9 @@ class AksaraJawa {
   }
 
   bool _findstr(String str, String tofind) {
-    for (var i = 0; i < str.length; i++) if (str[i] == tofind) return true;
+    for (var i = 0; i < str.length; i++) {
+      if (str[i] == tofind) return true;
+    }
     return false;
   }
 
@@ -519,7 +521,7 @@ class AksaraJawa {
   /// apabila huruf vokal, return matra (sandhangan swara)
   String? _getMatra(String str) {
     var i = 0;
-    if (str.length < 1) {
+    if (str.isEmpty) {
       return "꧀";
     }
     while (str[i] == 'h') {
@@ -601,10 +603,12 @@ class AksaraJawa {
     };
     Map<String, String> matrajavaLatin;
 
-    if (_isCopas)
+    if (_isCopas) {
       matrajavaLatin = matrajavaLatin2;
-    else //if(mode == "ketik")
+    } else {
+      //if(mode == "ketik")
       matrajavaLatin = matrajavaLatin1;
+    }
 
     if (matrajavaLatin[str] != null) {
       return matrajavaLatin[str];
@@ -621,7 +625,7 @@ class AksaraJawa {
   /// 5. ends with 'c', and 'j' -- nc: ncr, ncl; rc; nj: njr, njl; rj;
   /// 6. ends with 'ñ' -- jñ: jny
   /// apabila huruf bikonsonan, return karakter khusus
-  /// TODO: masih case sensitive, mis "RR" masih tidak betul
+  /// todo: masih case sensitive, mis "RR" masih tidak betul
 
   CoreSound _getShift(String str) {
     str = str.toLowerCase();
@@ -635,11 +639,11 @@ class AksaraJawa {
       } else if (str.indexOf("thy") == 0) {
         //thy -- ...
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦛꦾ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦛꦾ", len: 3);
       } else if (str.indexOf("thw") == 0) {
         //thw -- ...
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦛ꧀ꦮ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦛ꧀ꦮ", len: 3);
       } else {
         return CoreSound(coreSound: "ꦛ", len: 2);
       }
@@ -654,26 +658,26 @@ class AksaraJawa {
       } else if (str.indexOf("dhy") == 0) {
         //dhy -- dhyaksa
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦝꦾ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦝꦾ", len: 3);
       } else if (str.indexOf("dhw") == 0) {
         //dhw -- dhwani
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦝ꧀ꦮ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦝ꧀ꦮ", len: 3);
       } else {
         return CoreSound(coreSound: "ꦝ", len: 2);
       }
     } else if (str.indexOf("hy") == 0) {
       //hyang
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦲꦾ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦲꦾ", len: 2);
     } else if (str.indexOf("hh") == 0) {
       //hh
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦃꦲ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦃꦲ", len: 2);
     } else if (str.indexOf("rh") == 0) {
       //rh (kata berakhiran r diikuti kata berawalan h
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦂꦲ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦂꦲ", len: 2);
     } else if (str.indexOf("kh") == 0) {
       //kh (aksara murda)
       return CoreSound(coreSound: "ꦑ", len: 2);
@@ -704,7 +708,7 @@ class AksaraJawa {
     } else if (str.indexOf("h") == 1) {
       //h
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "꧀ꦲ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}꧀ꦲ", len: 2);
     } else if (str.indexOf("h") > 1) {
       //suku kata memiliki konsonan 'h' yang tidak di awal suku
       var sound = "";
@@ -728,42 +732,42 @@ class AksaraJawa {
       if (str.indexOf("ngr") == 0) {
         //cakra
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔꦿ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔꦿ", len: 3);
       } else if (str.indexOf("ngy") == 0) {
         //pengkal
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔꦾ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔꦾ", len: 3);
       } else if (str.indexOf("nggr") == 0) {
         //nggronjal
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔ꧀ꦒꦿ", len: 4);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔ꧀ꦒꦿ", len: 4);
       } else if (str.indexOf("nggl") == 0) {
         //nggl-
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔ꧀ꦒ꧀ꦭ", len: 4);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔ꧀ꦒ꧀ꦭ", len: 4);
       } else if (str.indexOf("nggw") == 0) {
         //nggw-, munggwing
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔ꧀ꦒ꧀ꦮ", len: 4);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔ꧀ꦒ꧀ꦮ", len: 4);
       } else if (str.indexOf("nggy") == 0) {
         //nggy-, anggyat
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔ꧀ꦒꦾ", len: 4);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔ꧀ꦒꦾ", len: 4);
       } else if (str.indexOf("ngg") == 0) {
         //ngg
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔ꧀ꦒ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔ꧀ꦒ", len: 3);
         /*
         } else if (str.indexOf("ngng") == 0) { //ngng
         return { "coreSound": "" + GetcoreSound(str[0]).coreSound + "ꦔ꧀ꦔ", len: 4 };*/
       } else if (str.indexOf("ngl") == 0) {
         //ngl, e.g. ngluwari
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔ꧀ꦭ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔ꧀ꦭ", len: 3);
       } else if (str.indexOf("ngw") == 0) {
         //ngw, e.g. ngwiru
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦔ꧀ꦮ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦔ꧀ꦮ", len: 3);
       } else {
         return CoreSound(coreSound: "ꦁ", len: 2);
       }
@@ -779,7 +783,7 @@ class AksaraJawa {
     } else if (str.indexOf("g") == 1) {
       //g
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "꧀ꦒ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}꧀ꦒ", len: 2);
     } else if (str.indexOf("g") > 1) {
       //suku kata memiliki konsonan 'g' yang tidak di awal suku
       var sound = "";
@@ -833,7 +837,7 @@ class AksaraJawa {
     } else if (str.indexOf("y") == 1) {
       //pengkal
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦾ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦾ", len: 2);
     } else if (str.indexOf("y") > 1) {
       //suku kata memiliki konsonan 'y' yang tidak di awal suku
       var sound = "";
@@ -854,22 +858,22 @@ class AksaraJawa {
     if (str.indexOf("hr") == 0) {
       //hr-
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦃꦿ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦃꦿ", len: 2);
     } else if (str.indexOf("rr") == 0) {
       //rr -- no cakra
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦂꦫ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦂꦫ", len: 2);
     } else if (str.indexOf("wr") == 0) {
       //wr -- panjingan + cakra
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦮꦿ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦮꦿ", len: 2);
     } else if (str.indexOf("qr") == 0) {
       //qr -- only cakra
       return CoreSound(coreSound: "ꦿ", len: 1);
     } else if (str.indexOf("r") == 1) {
       //cakra
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦿ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦿ", len: 2);
     } else if (str.indexOf("r") > 1) {
       //suku kata memiliki konsonan 'r' yang tidak di awal suku
       var sound = "";
@@ -891,22 +895,22 @@ class AksaraJawa {
     if (str.indexOf("ll") == 0) {
       //ll
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦭ꧀ꦭ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦭ꧀ꦭ", len: 2);
     } else if (str.indexOf("rl") == 0) {
       //rl (kata berakhiran r diikuti kata berawalan l
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦂꦭ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦂꦭ", len: 2);
     } else if (str.indexOf("hl") == 0) {
       //hl
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦃꦭ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦃꦭ", len: 2);
     } else if (str.indexOf("ql") == 0) {
       //only panjingan
       return CoreSound(coreSound: "꧀ꦭ", len: 2);
     } else if (str.indexOf("l") == 1) {
       //l
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "꧀ꦭ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}꧀ꦭ", len: 2);
     } else if (str.indexOf("l") > 1) {
       //suku kata memiliki konsonan 'l' yang tidak di awal suku//panjingan
       var sound = "";
@@ -928,12 +932,12 @@ class AksaraJawa {
     if (str.indexOf("rw") == 0) {
       //rw
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦂꦮ",
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦂꦮ",
           len: 2); //error untuk 'rwi', 'rwab'
     } else if (str.indexOf("hw") == 0) {
       //hw
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦃꦮ",
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦃꦮ",
           len: 2); //ꦲ꧀ꦮ
     } else if (str.indexOf("qw") == 0) {
       //only panjingan
@@ -941,7 +945,7 @@ class AksaraJawa {
     } else if (str.indexOf("w") == 1) {
       //w
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "꧀ꦮ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}꧀ꦮ", len: 2);
     } else if (str.indexOf("w") > 1) {
       //suku kata memiliki konsonan 'w' yang tidak di awal suku//panjingan
       var sound = "";
@@ -964,23 +968,23 @@ class AksaraJawa {
       if (str.indexOf("ncr") == 0) {
         //ncr -- kencrung
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦚ꧀ꦕꦿ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦚ꧀ꦕꦿ", len: 3);
       } else if (str.indexOf("ncl") == 0) {
         //ncl -- kinclong
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦚ꧀ꦕ꧀ꦭ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦚ꧀ꦕ꧀ꦭ", len: 3);
       } else {
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦚ꧀ꦕ", len: 2);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦚ꧀ꦕ", len: 2);
       }
     } else if (str.indexOf("rc") == 0) {
       //rc -- arca
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦂꦕ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦂꦕ", len: 2);
     } else if (str.indexOf("c") == 1) {
       //c
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "꧀ꦕ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}꧀ꦕ", len: 2);
     } else if (str.indexOf("c") > 1) {
       var sound = "";
       var len = 0;
@@ -1002,14 +1006,14 @@ class AksaraJawa {
       if (str.indexOf("njr") == 0) {
         //njr -- anjrah
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦚ꧀ꦗꦿ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦚ꧀ꦗꦿ", len: 3);
       } else if (str.indexOf("njl") == 0) {
         //njl -- anjlog
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦚ꧀ꦗ꧀ꦭ", len: 3);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦚ꧀ꦗ꧀ꦭ", len: 3);
       } else {
         return CoreSound(
-            coreSound: "" + _getcoreSound(str[0]).coreSound! + "ꦚ꧀ꦗ", len: 2);
+            coreSound: "${_getcoreSound(str[0]).coreSound!}ꦚ꧀ꦗ", len: 2);
       }
     } else if (str.indexOf("rj") == 0) {
       //'rj'
@@ -1017,7 +1021,7 @@ class AksaraJawa {
     } else if (str.indexOf("j") == 1) {
       //j
       return CoreSound(
-          coreSound: "" + _getcoreSound(str[0]).coreSound! + "꧀ꦗ", len: 2);
+          coreSound: "${_getcoreSound(str[0]).coreSound!}꧀ꦗ", len: 2);
     } else if (str.indexOf("j") > 1) {
       var sound = "";
       var len = 0;
@@ -1183,17 +1187,20 @@ class AksaraJawa {
     };
     Map<String, String> consonantjavaLatin;
 
-    if (_isMurdha)
+    if (_isMurdha) {
       consonantjavaLatin = consonantjavaLatin2;
-    else //if(murda == "tidak")
+    } else {
+      //if(murda == "tidak")
       consonantjavaLatin = consonantjavaLatin1;
+    }
 
     var hShift = _getShift(str);
     var core = str;
 
     if (hShift.coreSound == null) {
-      if (consonantjavaLatin[str[0]] != null)
+      if (consonantjavaLatin[str[0]] != null) {
         core = consonantjavaLatin[str[0]]!;
+      }
       return CoreSound(coreSound: core, len: 1);
     } else {
       return hShift;
@@ -1217,19 +1224,19 @@ class AksaraJawa {
   ///  ResolveCharacterSound
   /// return tanda baca, digit, vokal, maupun nglegana+pangkon
   String _resolveCharacterSound(String c) {
-    var str = "" + c;
+    var str = c;
     if (_isDigit(c)) {
       return "" + ('꧇' + c.replaceAll("0", ""));
     } else if (_isHR(str[0])) {
-      return "" + _getcoreSound(str).coreSound!; //layar dan wignyan
+      return _getcoreSound(str).coreSound!; //layar dan wignyan
     } else if (_isCJ(str[0])) {
-      return "" + _getcoreSound(str).coreSound! + "꧀"; //anuswara
+      return "${_getcoreSound(str).coreSound!}꧀"; //anuswara
 
     } else if (_isConsonant(str[0])) {
-      return "" + _getcoreSound(str).coreSound! + "꧀";
+      return "${_getcoreSound(str).coreSound!}꧀";
     } else {
       //if (isVowel(str[0])) {
-      return "" + _getcoreSound(str).coreSound!;
+      return _getcoreSound(str).coreSound!;
     }
 /**/
   }
@@ -1265,10 +1272,11 @@ class AksaraJawa {
 
       if (str.indexOf("nggr") == 0) {
         //nggr-
-        if (_vowelPrev)
+        if (_vowelPrev) {
           konsonan = "ꦁꦒꦿ"; //<vowel>nggr-, e.g. panggrahita
-        else
+        } else {
           konsonan = "ꦔ꧀ꦒꦿ"; //<nonvowel>nggr-, i.e. nggronjal
+        }
       } else if (str.indexOf("nggl") == 0) {
         //nggl-
         konsonan = "ꦔ꧀ꦒ꧀ꦭ";
@@ -1280,10 +1288,11 @@ class AksaraJawa {
         konsonan = "ꦔ꧀ꦒꦾ";
       } else if (str.indexOf("ngg") == 0) {
         //ngg-
-        if (_vowelPrev)
+        if (_vowelPrev) {
           konsonan = "ꦁꦒ"; //<vowel>ngg-, e.g. tunggal
-        else
+        } else {
           konsonan = "ꦔ꧀ꦒ"; //<nonvowel>ngg-, i.e. nggambar
+        }
       } else if (str.indexOf("ngl") == 0) {
         //ngl-
         konsonan = "ꦔ꧀ꦭ";
@@ -1304,10 +1313,11 @@ class AksaraJawa {
         konsonan = "ꦚ꧀ꦗꦿ";
       } else if (str.indexOf("ngg") == 0) {
         //ngg-
-        if (_vowelPrev)
+        if (_vowelPrev) {
           konsonan = "ꦁꦒ"; //<vowel>ngg-, e.g. tunggal
-        else
+        } else {
           konsonan = "ꦔ꧀ꦒ"; //<nonvowel>ngg-, i.e. nggambar
+        }
       } else if (coreSound.coreSound == "ꦤꦚ꧀ꦕ꧀ꦭ") {
         // -ncl-
         konsonan = "ꦚ꧀ꦕ꧀ꦭ"; //-ncl-
@@ -1350,35 +1360,37 @@ class AksaraJawa {
         // cakra keret
         if ((str[0] == "n" && str[1] == "y") ||
             ((str[0] == "t" || str[0] == "d") && str[1] == "h")) {
-          konsonan = _getcoreSound(str[0] + str[1]).coreSound! + "ꦽ";
+          konsonan = "${_getcoreSound(str[0] + str[1]).coreSound!}ꦽ";
           matra = ""; //nyrê-, thrê-, dhrê-
         } else if (str[0] == "n" && str[1] == "g") {
-          if (str[2] == "g")
+          if (str[2] == "g") {
             konsonan = "ꦔ꧀ꦒꦽ";
-          else
+          } else {
             konsonan = "ꦔꦽ";
+          }
           matra = ""; //nggrê-/ngrê-
         } else {
-          konsonan = _getcoreSound(str[0]).coreSound! + "ꦽ";
+          konsonan = "${_getcoreSound(str[0]).coreSound!}ꦽ";
           matra = ""; //-rê-
         }
       } else if (_findstr(coreSound.coreSound!, 'ꦭ') && matra == "ꦼ") {
         // nga lelet
         if ((str[0] == "n" && str[1] == "y") ||
             ((str[0] == "t" || str[0] == "d") && str[1] == "h")) {
-          konsonan = _getcoreSound(str[0] + str[1]).coreSound! + "꧀ꦭꦼ";
+          konsonan = "${_getcoreSound(str[0] + str[1]).coreSound!}꧀ꦭꦼ";
           matra = ""; //nylê-, thlê-, dhlê-
         } else if (str[0] == "n" && str[1] == "g") {
-          if (str[2] == "g")
+          if (str[2] == "g") {
             konsonan = "ꦔ꧀ꦒ꧀ꦭꦼ";
-          else
+          } else {
             konsonan = "ꦔ꧀ꦭꦼ";
+          }
           matra = ""; //ngglê-/nglê-
         } else if (str[0] == "l") {
           konsonan = "ꦊ";
           matra = ""; //-lê-
         } else {
-          konsonan = _getcoreSound(str[0]).coreSound! + "꧀ꦭꦼ";
+          konsonan = "${_getcoreSound(str[0]).coreSound!}꧀ꦭꦼ";
           matra = ""; //-lê-
         }
       } else if (coreSound.coreSound == 'ꦛꦿ' ||
@@ -1402,10 +1414,11 @@ class AksaraJawa {
         konsonan = "ꦂꦭ"; //-rl-
       } else if (coreSound.coreSound == "ꦂꦂꦮ") {
         // -rw-
-        if (_vowelPrev)
+        if (_vowelPrev) {
           konsonan = "ꦂꦮ"; //-rw- -- arwana
-        else
+        } else {
           konsonan = "ꦫ꧀ꦮ"; //rw- -- rwa/rwi/rwab
+        }
       } else if (coreSound.coreSound == "ꦂꦂꦕ") {
         // -rc-
         konsonan = "ꦂꦕ"; //-rc-
@@ -1414,37 +1427,42 @@ class AksaraJawa {
         konsonan = "ꦃꦲ"; //double -h-
       } else if (coreSound.coreSound == "ꦃꦃꦭ") {
         // -hl-
-        if (_vowelPrev)
+        if (_vowelPrev) {
           konsonan = "ꦃꦭ"; //-hl-
-        else
+        } else {
           konsonan = "ꦲ꧀ꦭ"; //hlam
+        }
       } else if (coreSound.coreSound == "ꦃꦃꦮ") {
         // -hw-
-        if (_vowelPrev)
+        if (_vowelPrev) {
           konsonan = "ꦃꦮ"; //-hw-
-        else
+        } else {
           konsonan = "ꦲ꧀ꦮ"; //hwab,hwan
+        }
       } else if (coreSound.coreSound == "ꦃꦲꦾ") {
         // -hy-
-        if (_vowelPrev)
+        if (_vowelPrev) {
           konsonan = "ꦃꦪ"; //sembahyang
-        else
+        } else {
           konsonan = "ꦲꦾ"; //hyang/*
+        }
       } else if (coreSound.coreSound == "ꦃꦃꦽ") {
         // hrx-
         konsonan = "ꦲꦿ"; //hrx-
       } else if (coreSound.coreSound == "ꦃꦃꦿ") {
         // hr-
-        if (matra == "ꦼ")
+        if (matra == "ꦼ") {
           konsonan = "ꦲꦽ"; //hr-
-        else
+        } else {
           konsonan = "ꦲꦿ"; //hr-
+        }
       } else if (coreSound.coreSound == "ꦃꦲꦿ") {
         // hr-
-        if (matra == "ꦼ")
+        if (matra == "ꦼ") {
           konsonan = "ꦲꦽ"; //hr-
-        else
+        } else {
           konsonan = "ꦲꦿ"; //hr-
+        }
       } else if (coreSound.coreSound == 'ꦃ' && matra == "꧀") {
         // wignyan - 12 April
         konsonan = "ꦲ"; //ha
@@ -1468,7 +1486,7 @@ class AksaraJawa {
       } else {
         konsonan = coreSound.coreSound!;
       }
-      return "" + konsonan + matra;
+      return "$konsonan$matra";
     }
   }
 
@@ -1506,7 +1524,7 @@ class AksaraJawa {
           //specials
           if (i == 1 || (i > 1 && !_isConsonant(str[i - 2]))) {
             //for example if starts with 'ai-'
-            str = str.substring(0, i) + 'h' + str.substring(i, str.length);
+            str = '${str.substring(0, i)}h${str.substring(i, str.length)}';
           }
           //else, do nothing, look in matrajavaLatin table
         } else if ((str[i - 1] == 'e' ||
@@ -1514,7 +1532,7 @@ class AksaraJawa {
                 str[i - 1] == 'é') &&
             (str[i] == 'a' || str[i] == 'o')) {
           //-y-
-          str = str.substring(0, i) + 'y' + str.substring(i, str.length);
+          str = '${str.substring(0, i)}y${str.substring(i, str.length)}';
         } else if ((str[i - 1] == 'i') &&
             (str[i] == 'a' ||
                 str[i] == 'e' ||
@@ -1523,14 +1541,14 @@ class AksaraJawa {
                 str[i] == 'o' ||
                 str[i] == 'u')) {
           //-y-
-          str = str.substring(0, i) + 'y' + str.substring(i, str.length);
+          str = '${str.substring(0, i)}y${str.substring(i, str.length)}';
         } else if ((str[i - 1] == 'o') &&
             (str[i] == 'a' ||
                 str[i] == 'e' ||
                 str[i] == 'è' ||
                 str[i] == 'é')) {
           //-w-
-          str = str.substring(0, i) + 'w' + str.substring(i, str.length);
+          str = '${str.substring(0, i)}w${str.substring(i, str.length)}';
         } else if ((str[i - 1] == 'u') &&
             (str[i] == 'a' ||
                 str[i] == 'e' ||
@@ -1539,9 +1557,9 @@ class AksaraJawa {
                 str[i] == 'i' ||
                 str[i] == 'o')) {
           //-y-
-          str = str.substring(0, i) + 'w' + str.substring(i, str.length);
+          str = '${str.substring(0, i)}w${str.substring(i, str.length)}';
         } else {
-          str = str.substring(0, i) + 'h' + str.substring(i, str.length);
+          str = '${str.substring(0, i)}h${str.substring(i, str.length)}';
         }
       }
       if ((_isSpecial(str[i]) || _isLW(str[i]) || _isCJ(str[i])) &&
@@ -1571,7 +1589,7 @@ class AksaraJawa {
           }
         }
         if (str[i] == ' ') {
-          var spasi;
+          String spasi;
           if (_isSpasi) {
             spasi = '';
           } else {
