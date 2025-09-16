@@ -13,7 +13,7 @@ void main() {
     // aksara.javaToLatin("ꦲꦏ꧀ꦱꦫ​ꦗꦮ");
 
     if (kDebugMode) {
-      print(aksara.latinToJava('cahyono developer', isSpasi: true));
+      print(aksara.latinToJava('cahyono developer', isSpace: true));
     }
 
     // expect(aksara.latinToJava("aksarajawa"), "ꦲꦏ꧀ꦱꦫ​ꦗꦮ");

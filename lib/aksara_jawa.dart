@@ -23,7 +23,7 @@ class AksaraJawa {
   /// [!isSpasi] Dalam mode ini, jika tanpa spasi teks akan diperlakukan tanpa ada spasi sama sekali, meskipun Anda menggunakan spasi. Teks tidak dapat dikonvert kembali dengan spasi.
   /// [isSpasi]jika dengan spasi, setiap spasi diubah menjadi karakter khusus sehingga dapat ditransliterasi kembali ke Latin dengan spasi.
   String latinToJava(String script,
-      {bool isMurdha = false, bool isCopas = false, bool isSpasi = false}) {
+      {bool isMurdha = false, bool isCopas = false, bool isSpace = false}) {
     _isCopas = isCopas;
     _isMurdha = isMurdha;
     _isSpasi = _isSpasi;
@@ -937,8 +937,7 @@ class AksaraJawa {
     } else if (str.indexOf("hw") == 0) {
       //hw
       return CoreSound(
-          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦃꦮ",
-          len: 2); //ꦲ꧀ꦮ
+          coreSound: "${_getcoreSound(str[0]).coreSound!}ꦃꦮ", len: 2); //ꦲ꧀ꦮ
     } else if (str.indexOf("qw") == 0) {
       //only panjingan
       return CoreSound(coreSound: "꧀ꦮ", len: 2);
@@ -1231,7 +1230,6 @@ class AksaraJawa {
       return _getcoreSound(str).coreSound!; //layar dan wignyan
     } else if (_isCJ(str[0])) {
       return "${_getcoreSound(str).coreSound!}꧀"; //anuswara
-
     } else if (_isConsonant(str[0])) {
       return "${_getcoreSound(str).coreSound!}꧀";
     } else {
@@ -1265,7 +1263,6 @@ class AksaraJawa {
       if (coreSound.len! >= 1) {
         matra = _getMatra(str.substring(coreSound
             .len!))!; //aeiou (suku, wulu, pepet, taling, taling tarung, dll.)
-
       } else {
         matra = "";
       }
